@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slm-wm-flow-hf"
+version = "0.1.0"
+description = "Minimal HF watermark experiments for SD3.5 Flow Matching"
+requires-python = ">=3.12"
+dependencies = [
+  "accelerate==1.14.0",
+  "diffusers==0.38.0",
+  "huggingface-hub==1.20.1",
+  "numpy==2.0.2",
+  "Pillow==11.3.0",
+  "safetensors==0.8.0",
+  "torch==2.11.0",
+  "transformers==5.12.1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit", "tests/functional"]
+markers = [
+  "gpu: requires a real CUDA GPU and SD3.5 model download",
+]
+
+[tool.setuptools.packages.find]
+include = ["flowhf*"]

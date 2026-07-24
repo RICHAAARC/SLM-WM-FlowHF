@@ -1,0 +1,18 @@
+{
+  "baseline_commit": "34825098553d22f68f188afcd938d0aa72132caf",
+  "key_material_for_test_only": "flowhf-golden-key",
+  "model_identity_digest": "79adf618df93411bfce3a8a5249bd6bb582819337d2afc3af462a446431e2e91",
+  "shape": [1, 2, 4, 4],
+  "selected_element_count": 7,
+  "template_content_sha256": "71271d5122e5ef8f6a0300c2b1943c1f2f1eada2d069afb080a4650a5ff62b39",
+  "first_eight_values": [
+    0.0,
+    0.0,
+    0.5334708094596863,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
+}
