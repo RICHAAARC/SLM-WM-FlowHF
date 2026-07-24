@@ -31,6 +31,7 @@ HF_TOKEN_SECRET_NAME = "HF_TOKEN"
 @dataclass(frozen=True)
 class PreparedInput:
     spec: FlowHFRunSpec
+    verified_repository_commit: str
     watermark_key: str = field(repr=False)
     hf_token: str | None = field(default=None, repr=False)
 
@@ -69,6 +70,10 @@ def load_verified_drive_input(
 
     local_request_bytes = LOCAL_REQUEST_PATH.read_bytes()
     spec = load_run_spec(LOCAL_REQUEST_PATH)
+    checkout_identity = bootstrap_public_checkout(spec)
+    verified_repository_commit = checkout_identity["resolved_commit"]
+    if verified_repository_commit != spec.repository_commit:
+        raise RuntimeError("verified checkout differs from the run request")
     adapter.mount()
     try:
         drive_request_bytes = DRIVE_REQUEST_PATH.read_bytes()
@@ -84,6 +89,7 @@ def load_verified_drive_input(
         raise RuntimeError("Colab run_root must use the fixed local runs root")
     return PreparedInput(
         spec=spec,
+        verified_repository_commit=verified_repository_commit,
         watermark_key=watermark_key,
         hf_token=_optional_hf_token(secret_getter),
     )
@@ -142,6 +148,7 @@ def run_prepared_input(prepared: PreparedInput) -> dict[str, Any]:
         prepared.spec,
         watermark_key=prepared.watermark_key,
         hf_token=prepared.hf_token,
+        verified_repository_commit=prepared.verified_repository_commit,
     )
 
 

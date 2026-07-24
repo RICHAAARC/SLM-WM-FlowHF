@@ -97,6 +97,17 @@ def _assert_repository_identity(spec: FlowHFRunSpec) -> None:
         raise RuntimeError("repository tracked worktree is not clean")
 
 
+def _assert_execution_identity(
+    spec: FlowHFRunSpec,
+    verified_repository_commit: str | None,
+) -> None:
+    if verified_repository_commit is not None:
+        if verified_repository_commit != spec.repository_commit:
+            raise RuntimeError("verified repository commit differs from request")
+        return
+    _assert_repository_identity(spec)
+
+
 def _run_chain(
     runtime: ModelRuntime,
     spec: FlowHFRunSpec,
@@ -330,6 +341,7 @@ def run_experiment(
     *,
     watermark_key: str,
     hf_token: str | None = None,
+    verified_repository_commit: str | None = None,
     dependencies: ExperimentDependencies = ExperimentDependencies(),
 ) -> dict[str, Any]:
     """Run the fixed one-prompt experiment.
@@ -360,7 +372,7 @@ def run_experiment(
     schedule_record: dict[str, Any] | None = None
     completed_chain_roles: list[str] = []
     try:
-        _assert_repository_identity(spec)
+        _assert_execution_identity(spec, verified_repository_commit)
         runtime = dependencies.load_runtime(spec, hf_token=hf_token)
         runtime_record = runtime.record
         registered_key = build_registered_key_candidate(watermark_key)
