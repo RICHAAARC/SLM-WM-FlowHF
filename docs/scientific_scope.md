@@ -2,11 +2,19 @@
 
 ## Current status
 
-The current method is a **candidate primitive pending final hard-prompt
-validation**. The lighthouse smoke and roster01/roster02 runs provide
-small-scale support only. Roster03 and roster04 remain the final hard-prompt
-gate; until both pass, the candidate is not a population-level, paper, or
-qualification result.
+The current method is a **frozen four-prompt small-roster primitive**.
+Lighthouse and roster01/roster02 provided the initial support; roster03 and
+roster04 subsequently closed the preregistered hard-prompt gate. Across the
+fixed roster, watermarked direct detection is `4/4` rank `1/33`, with
+registered-minus-maximum-wrong margins of `0.0051108673`, `0.0021638167`,
+`0.0083313650`, and `0.0060507040`. The clean direct margins average
+`-0.0060073974`, with zero clean rank-one results, so both clean aggregate
+rules pass. PSNR, SSIM, MSE, and MAE are complete and finite for all four
+pairs. Inversion changes the direct pass/fail decision zero times.
+
+This freezes only the small-roster primitive. It is not population-level,
+paper, qualification, cross-prompt/seed/key generalization, attack-robustness,
+or fixed-FPR evidence.
 
 ## Candidate primitive
 
@@ -62,18 +70,17 @@ changed together with the first frozen primitive. The implementation also
 excludes Jacobian, JVP, VJP, PSD-CG, null-space claims, attacks, and
 injection-position selection.
 
-## Conditional migration boundary
+## Frozen migration boundary
 
-The primitive may be frozen and migrated only if all four frozen prompts show
+The preregistered migration gate is closed: all four frozen prompts have
 watermarked direct rank `1/33` and an individual
 registered-minus-maximum-wrong margin greater than zero; the clean direct
 results satisfy both aggregate rules above; all four quality metrics are
 complete, finite, and reported descriptively; and inversion does not change
 the direct pass/fail decision.
 
-Even if roster03 and roster04 pass and the fixed roster reaches `4/4`, this
-permits freezing and migrating only the small-roster primitive. It does not
-establish population-level, paper, qualification, generalization across
+This permits freezing and migrating only the small-roster primitive. It does
+not establish population-level, paper, qualification, generalization across
 prompts, seeds, or keys, attack robustness, or fixed-FPR evidence.
 
 The first migration must preserve the FlowHF injection position, energy, and
@@ -82,5 +89,5 @@ route remains a historical non-passing route. Inversion remains an ablation
 with no current decision benefit. Migration must not rewrite prior experiments
 or failure conclusions.
 
-This candidate phase does not add formal schemas, artifact binding, resume, or
-qualification infrastructure.
+This frozen primitive does not add formal schemas, artifact binding, resume,
+or qualification infrastructure.
